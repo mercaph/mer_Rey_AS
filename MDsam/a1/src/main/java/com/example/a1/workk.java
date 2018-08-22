@@ -55,6 +55,7 @@ public class workk extends Fragment {
         mwRecyclerView.setLayoutManager(llm2);
         initListData_w();
         mwAdapter = new WorkAdapter_1(mDatas2,this.getContext());
+        mwRecyclerView.setAdapter(mwAdapter);
         mwRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         final AlertDialog.Builder localBuilder2 = new AlertDialog.Builder(context_w);
