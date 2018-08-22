@@ -13,14 +13,14 @@ import java.util.List;
 
 class HotFgListAdapter extends RecyclerView.Adapter<HotFgListAdapter.merViewHolder>{
     //数据
-    private List<Taskk1>mDatas1;
+    private List<Taskk2>mDatas1;
     //上下文环境
     private LayoutInflater mInflater;
     private Context context;
     //点击事件
     private AdapterView.OnItemClickListener onItemClickListener;
     //构造函数
-    public HotFgListAdapter(List<Taskk1> mDatas1,Context context) {
+    public HotFgListAdapter(List<Taskk2> mDatas1,Context context) {
         this.mDatas1 = mDatas1;
         this.context = context;
     }
@@ -30,14 +30,15 @@ class HotFgListAdapter extends RecyclerView.Adapter<HotFgListAdapter.merViewHold
         //关联相关样式
 //        mInflater = LayoutInflater.from(parent.getContext());
 //        View v = LayoutInflater.from(context).inflate(R.layout.item_2,parent,false);
-        View v = LayoutInflater.from(context).inflate(R.layout.item_2,parent,false);
+        View v = LayoutInflater.from(context).inflate(R.layout.item_3,parent,false);
         merViewHolder rViewHolder = new merViewHolder(v);
         return rViewHolder;
     }
 
     @Override
     public void onBindViewHolder(final merViewHolder holder, int position) {
-        holder.des.setText(mDatas1.get(position).getDes());
+        holder.des.setText(mDatas1.get(position).getTask_w());
+        holder.time.setText(mDatas1.get(position).getTime_w());
 
         if(mOnItemClickListener != null){
             holder.itemView.setOnClickListener(new View.OnClickListener(){
@@ -59,8 +60,8 @@ class HotFgListAdapter extends RecyclerView.Adapter<HotFgListAdapter.merViewHold
         }
     }
 
-    public void addItem(int position,String string) {
-        mDatas1.add(position,new Taskk1(string));
+    public void addItem(int position,String string,String str2) {
+        mDatas1.add(position,new Taskk2(string,str2));
         notifyItemInserted(position);
     }
 
@@ -91,11 +92,13 @@ class HotFgListAdapter extends RecyclerView.Adapter<HotFgListAdapter.merViewHold
     class merViewHolder extends RecyclerView.ViewHolder{
         CardView cardView;
         TextView des;
+        TextView time;
 
         public merViewHolder(View itemView) {
             super(itemView);
-            cardView = (CardView)itemView.findViewById(R.id.cv_car2);
-            des = (TextView)itemView.findViewById(R.id.tv_des2);
+            cardView = (CardView)itemView.findViewById(R.id.cv_car3);
+            des = (TextView)itemView.findViewById(R.id.tv_des3);
+            time = itemView.findViewById(R.id.tv_des4);
         }
 
     }

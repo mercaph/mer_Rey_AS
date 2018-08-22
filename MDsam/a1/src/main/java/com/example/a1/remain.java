@@ -32,7 +32,7 @@ import java.util.List;
 public class remain extends Fragment {
     private View mView;
     private RecyclerView mRecyclerView;
-    private List<Taskk1> mDatas1;
+    private List<Taskk2> mDatas1;
     private HotFgListAdapter mAdapter;
     private Context context3;
     private Button btn1;
@@ -76,7 +76,7 @@ public class remain extends Fragment {
         mAdapter.setOnItemClickListener(new HotFgListAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View v, int position) {
-                Toast.makeText(getContext(), mDatas1.get(position).getDes(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), mDatas1.get(position).getTask_w(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -119,7 +119,7 @@ public class remain extends Fragment {
                        EditText edt_1 = viewDialog.findViewById(R.id.edt_1);
                        add_mData = null;
                        add_mData = edt_1.getText().toString();
-                       mAdapter.addItem(0,add_mData);
+                       mAdapter.addItem(0,add_mData,"don't forget");
                        Toast.makeText(getContext(), "item built succeed" , Toast.LENGTH_SHORT).show();
 
                     }
@@ -163,9 +163,9 @@ public class remain extends Fragment {
     }
 
     private void initListData() {
-        mDatas1 = new ArrayList<>(20);
+        mDatas1 = new ArrayList<>(10);
         for (int i = 0; i < 1; i++) {
-            Taskk1 dataBean = new Taskk1("ADD SOMETHING HERE :D");
+            Taskk2 dataBean = new Taskk2("Add Here :D","don't forget");
             mDatas1.add(dataBean);
         }
     }

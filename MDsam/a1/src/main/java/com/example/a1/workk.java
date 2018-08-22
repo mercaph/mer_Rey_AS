@@ -29,9 +29,8 @@ public class workk extends Fragment {
     private View mwView;
     private RecyclerView mwRecyclerView;
     private List<Taskk2> mDatas2;
-    private WorkAdapter_1 mwAdapter;
+    private HotFgListAdapter mwAdapter;
     private Context context_w;
-    public String add_mData2;
     private Button btn3;//底部的添加按钮
 
     @Override
@@ -54,23 +53,24 @@ public class workk extends Fragment {
         LinearLayoutManager llm2 = new LinearLayoutManager(this.getContext());
         mwRecyclerView.setLayoutManager(llm2);
         initListData_w();
-        mwAdapter = new WorkAdapter_1(mDatas2,this.getContext());
+        mwAdapter = new HotFgListAdapter(mDatas2,this.getContext());
         mwRecyclerView.setAdapter(mwAdapter);
         mwRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        final AlertDialog.Builder localBuilder2 = new AlertDialog.Builder(context_w);
-        /*设置条目点击事件*/
-        mwAdapter.setOnItemClickListener(new WorkAdapter_1.OnItemClickListener() {
+        final AlertDialog.Builder localBuilder1 = new AlertDialog.Builder(context_w);
+//        /*设置条目点击事件*/
+        mwAdapter.setOnItemClickListener(new HotFgListAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View v, int position) {
                 Toast.makeText(getContext(), mDatas2.get(position).getTask_w(), Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onItemLongClick(View view, final int position) {
                 Toast.makeText(getContext(), "long click" + position, Toast.LENGTH_SHORT).show();
-                localBuilder2.setTitle("ATTENTION");
-                localBuilder2.setView(getLayoutInflater().inflate(R.layout.do_you_delete,null));
-                localBuilder2.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                localBuilder1.setTitle("ATTENTION");
+                localBuilder1.setView(getLayoutInflater().inflate(R.layout.do_you_delete,null));
+                localBuilder1.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Toast.makeText(getContext(), "yes" , Toast.LENGTH_SHORT).show();
@@ -102,7 +102,7 @@ public class workk extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         EditText edt_task = viewDialog.findViewById(R.id.edt_2);
                         EditText edt_time = viewDialog.findViewById(R.id.edt_3);
-                        mwAdapter.addItem(0,edt_task.getText().toString(),edt_time.getText().toString());
+                        mwAdapter.addItem(0,edt_task.getText().toString(),edt_time.getText().toString()+"  mins");
                         Toast.makeText(getContext(), "item built succeed" , Toast.LENGTH_SHORT).show();
 
                     }
@@ -122,7 +122,7 @@ public class workk extends Fragment {
     private void initListData_w() {
         mDatas2 = new ArrayList<>(7);
         for(int i=0;i<5;i++){
-            Taskk2 dataBean = new Taskk2("work","15");
+            Taskk2 dataBean = new Taskk2("work","15  mins");
             mDatas2.add(dataBean);
         }
 
