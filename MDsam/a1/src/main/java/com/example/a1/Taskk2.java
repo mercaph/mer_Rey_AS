@@ -1,6 +1,8 @@
 package com.example.a1;
 
-public class Taskk2 {
+import java.io.Serializable;
+
+public class Taskk2 implements Serializable{
     private String task_w;
     private String time_w;
 

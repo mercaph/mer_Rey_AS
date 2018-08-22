@@ -121,8 +121,8 @@ public class workk extends Fragment {
 
     private void initListData_w() {
         mDatas2 = new ArrayList<>(7);
-        for(int i=0;i<5;i++){
-            Taskk2 dataBean = new Taskk2("work","15  mins");
+        for(int i=0;i<1;i++){
+            Taskk2 dataBean = new Taskk2("input work","time  mins");
             mDatas2.add(dataBean);
         }
 
