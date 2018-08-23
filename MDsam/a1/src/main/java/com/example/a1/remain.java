@@ -3,6 +3,8 @@ package com.example.a1;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -22,8 +24,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.example.a1.a1dMerca.mDatas1;
+import static com.example.a1.a1dMerca.newTextRecord;
 
 
 /**
@@ -62,11 +66,11 @@ public class remain extends Fragment {
 //        mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         initListData();
 //        Log.i("ld","1");
+
         mAdapter = new HotFgListAdapter(mDatas1, this.getContext());
         mRecyclerView.setAdapter(mAdapter);
         /*3,添加item的添加和移除动画, 这里我们使用系统默认的动画*/
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
         //item
 //        ItemTouchHelper.Callback callback = new myItemTouchHelperCallBack((HotFgListAdapter.ItemTouchHelperAdapter) mAdapter);
 //        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);

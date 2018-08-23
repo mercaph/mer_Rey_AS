@@ -23,15 +23,17 @@ import java.util.Locale;
 public class a1dMerca extends AppCompatActivity {
     public static List<Taskk2>mDatas1;
     public static List<Taskk2>mDatas2;
-    public static int tab_c;
+    public static List<Taskk2>mDatas3;
+    public static int tab_c=-1;
     public static int wor_pos = -1;
     private NfcAdapter mNFC_Adp;
-    private NdefMessage mMessage;
+    public static NdefMessage mMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a1_1);
+        //readListFromSDcard3("test");
         mNFC_Adp = NfcAdapter.getDefaultAdapter(this);
         NfcCheck();
         TabLayout tabLayout = findViewById(R.id.tab_layout);
@@ -40,24 +42,14 @@ public class a1dMerca extends AppCompatActivity {
         mViewPager.setAdapter(new PageAdapter(getSupportFragmentManager(),tabLayout.getTabCount()));
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
+        readListFromSDcard3("test");
+
         //绑定tab点击事件
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 tab_c = tab.getPosition();
-                switch (tab_c){
-                    case 0:
-                        mMessage = new NdefMessage(new NdefRecord[]{newTextRecord(init_re(), Locale.ENGLISH, true)});
-                        break;
-                    case 1:
-                        if (wor_pos!=-1){
-                            mMessage = new NdefMessage(new NdefRecord[]{newTextRecord(init_wk(), Locale.ENGLISH, true)});
-                        }
-
-                    default:break;
-                }
-
-                mViewPager.setCurrentItem(tab_c,true);
+                mViewPager.setCurrentItem(tab.getPosition(),true);
             }
 
             @Override
@@ -70,17 +62,26 @@ public class a1dMerca extends AppCompatActivity {
 
             }
         });
+       mMessage = new NdefMessage(new NdefRecord[]{newTextRecord(init_ts(), Locale.ENGLISH, true)});
+
+        //mMessage = new NdefMessage(new NdefRecord[]{newTextRecord(init_re(), Locale.ENGLISH, true)});
+
+//        switch (tab_c){
+//            case 0:
+//                mMessage = new NdefMessage(new NdefRecord[]{newTextRecord(init_re(), Locale.ENGLISH, true)});
+//                break;
+//            case 1:
+//                if (wor_pos!=-1 || wor_pos<=mDatas2.size()){
+//                    mMessage = new NdefMessage(new NdefRecord[]{newTextRecord(init_wk(), Locale.ENGLISH, true)});
+//                    break;
+//                }else {
+//                    break;
+//                }
+//
+//            default:mMessage = new NdefMessage(new NdefRecord[]{newTextRecord("none_defult", Locale.ENGLISH, true)});break;
+//        }
 
 
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "merca work", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
 
@@ -88,6 +89,7 @@ public class a1dMerca extends AppCompatActivity {
     protected void onStop() {
         writeListIntoSDcard("remainRes",mDatas1);
         writeListIntoSDcard("workRes",mDatas2);
+        writeListIntoSDcard("test",mDatas3);
         super.onStop();
     }
 
@@ -134,21 +136,30 @@ public class a1dMerca extends AppCompatActivity {
         }
     }
 
+    /**
+     * 数据加载
+     * @return
+     */
+
     String init_re(){
         StringBuffer sb = new StringBuffer();
         String remain_1;
-        for (int i = 0; i < mDatas1.size(); i++) {
-            sb.append(mDatas1.get(i).getTask_w());
-            sb.append("@");
+        if(mDatas1.isEmpty() && mDatas1 == null){
+            return "none";
+        }else{
+            for (int i = 0; i < mDatas1.size(); i++) {
+                sb.append(mDatas1.get(i).getTask_w());
+                sb.append("@");
+            }
+            remain_1 = sb.toString();
+            return remain_1;
         }
-        remain_1 = sb.toString();
-        return remain_1;
     }
 
     String init_wk(){
         StringBuffer sb = new StringBuffer();
         String remain_2;
-        if(wor_pos!=-1 || wor_pos<=mDatas2.size()){
+        if(wor_pos!=-1 && wor_pos<=mDatas2.size() && !mDatas2.isEmpty()){
             sb.append(mDatas2.get(wor_pos).getTask_w());
             sb.append("@");
             sb.append(mDatas2.get(wor_pos).getTime_w());
@@ -157,6 +168,18 @@ public class a1dMerca extends AppCompatActivity {
         }else {
             return "none";
         }
+    }
+
+    String init_ts(){
+        StringBuffer sb = new StringBuffer();
+        String remain_2;
+
+            for (int i = 0; i < 2; i++) {
+                sb.append("ood");
+                sb.append("@");
+            }
+            remain_2 = sb.toString();
+            return remain_2;
     }
 
     public static NdefRecord newTextRecord(String text, Locale locale, boolean encodeInUtf8) {
@@ -174,6 +197,21 @@ public class a1dMerca extends AppCompatActivity {
         System.arraycopy(textBytes, 0, data, 1 + langBytes.length, textBytes.length);
 
         return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT, new byte[0], data);
+    }
+
+
+    public void readListFromSDcard3(String str){
+        mDatas3 = new InputUtil<Taskk2>().readListFromSdCard(str);
+        if (mDatas3 == null) {
+            mDatas3 = new ArrayList<>(10);
+            Taskk2 dataBean = new Taskk2("Add Here :D","don't forget");
+            mDatas3.add(dataBean);
+        }else if(mDatas3.isEmpty()){
+            Taskk2 dataBean = new Taskk2("Add Here :D","don't forget");
+            mDatas3.add(dataBean);
+        }
+        else {
+        }
     }
 
 }
