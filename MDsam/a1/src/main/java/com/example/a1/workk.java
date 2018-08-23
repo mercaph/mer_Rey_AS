@@ -21,6 +21,7 @@ import java.util.List;
 
 import static com.example.a1.a1dMerca.mDatas1;
 import static com.example.a1.a1dMerca.mDatas2;
+import static com.example.a1.a1dMerca.wor_pos;
 
 
 /**
@@ -64,6 +65,7 @@ public class workk extends Fragment {
         mwAdapter.setOnItemClickListener(new HotFgListAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View v, int position) {
+                wor_pos = position;
                 Toast.makeText(getContext(), mDatas2.get(position).getTask_w(), Toast.LENGTH_SHORT).show();
             }
 

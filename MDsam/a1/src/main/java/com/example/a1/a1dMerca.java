@@ -23,8 +23,9 @@ import java.util.Locale;
 public class a1dMerca extends AppCompatActivity {
     public static List<Taskk2>mDatas1;
     public static List<Taskk2>mDatas2;
+    public static int tab_c;
+    public static int wor_pos = -1;
     private NfcAdapter mNFC_Adp;
-    private boolean judge = false;
     private NdefMessage mMessage;
 
     @Override
@@ -43,7 +44,20 @@ public class a1dMerca extends AppCompatActivity {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition(),true);
+                tab_c = tab.getPosition();
+                switch (tab_c){
+                    case 0:
+                        mMessage = new NdefMessage(new NdefRecord[]{newTextRecord(init_re(), Locale.ENGLISH, true)});
+                        break;
+                    case 1:
+                        if (wor_pos!=-1){
+                            mMessage = new NdefMessage(new NdefRecord[]{newTextRecord(init_wk(), Locale.ENGLISH, true)});
+                        }
+
+                    default:break;
+                }
+
+                mViewPager.setCurrentItem(tab_c,true);
             }
 
             @Override
@@ -56,8 +70,6 @@ public class a1dMerca extends AppCompatActivity {
 
             }
         });
-
-        mMessage = new NdefMessage(new NdefRecord[]{newTextRecord("good", Locale.ENGLISH, true)});
 
 
 
@@ -119,6 +131,31 @@ public class a1dMerca extends AppCompatActivity {
                 Intent setNfc = new Intent(Settings.ACTION_NFC_SETTINGS);
                 startActivity(setNfc);
             }
+        }
+    }
+
+    String init_re(){
+        StringBuffer sb = new StringBuffer();
+        String remain_1;
+        for (int i = 0; i < mDatas1.size(); i++) {
+            sb.append(mDatas1.get(i).getTask_w());
+            sb.append("@");
+        }
+        remain_1 = sb.toString();
+        return remain_1;
+    }
+
+    String init_wk(){
+        StringBuffer sb = new StringBuffer();
+        String remain_2;
+        if(wor_pos!=-1 || wor_pos<=mDatas2.size()){
+            sb.append(mDatas2.get(wor_pos).getTask_w());
+            sb.append("@");
+            sb.append(mDatas2.get(wor_pos).getTime_w());
+            remain_2 = sb.toString();
+            return remain_2;
+        }else {
+            return "none";
         }
     }
 
