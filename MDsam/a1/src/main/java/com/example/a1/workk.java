@@ -19,6 +19,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.a1.a1dMerca.mDatas1;
+import static com.example.a1.a1dMerca.mDatas2;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +31,6 @@ import java.util.List;
 public class workk extends Fragment {
     private View mwView;
     private RecyclerView mwRecyclerView;
-    private List<Taskk2> mDatas2;
     private HotFgListAdapter mwAdapter;
     private Context context_w;
     private Button btn3;//底部的添加按钮
@@ -120,12 +122,27 @@ public class workk extends Fragment {
     }
 
     private void initListData_w() {
-        mDatas2 = new ArrayList<>(7);
-        for(int i=0;i<1;i++){
+        readListFromSDcard2("workRes");
+//        mDatas2 = new ArrayList<>(7);
+//        for(int i=0;i<1;i++){
+//            Taskk2 dataBean = new Taskk2("input work","time  mins");
+//            mDatas2.add(dataBean);
+//        }
+    }
+
+    public void readListFromSDcard2(String str){
+        mDatas2 = new InputUtil<Taskk2>().readListFromSdCard(str);
+        if (mDatas2 == null) {
+            mDatas2 = new ArrayList<>(10);
+            Taskk2 dataBean = new Taskk2("input work","time  mins");
+            mDatas2.add(dataBean);
+        }else if(mDatas1.isEmpty()){
             Taskk2 dataBean = new Taskk2("input work","time  mins");
             mDatas2.add(dataBean);
         }
-
+        else {
+            Toast.makeText(getContext(), "read succeed", Toast.LENGTH_SHORT).show();
+        }
     }
 }
 

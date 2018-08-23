@@ -17,7 +17,6 @@ public class a1dMerca extends AppCompatActivity {
     public static List<Taskk2>mDatas1;
     public static List<Taskk2>mDatas2;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +55,12 @@ public class a1dMerca extends AppCompatActivity {
 //        });
     }
 
-//    @Override
-//    protected void onStop() {
-//        writeListIntoSDcard("remainRes",mDatas1);
-//       // writeListIntoSDcard("workRes",mDatas2);
-//        super.onStop();
-//    }
+    @Override
+    protected void onStop() {
+        writeListIntoSDcard("remainRes",mDatas1);
+        writeListIntoSDcard("workRes",mDatas2);
+        super.onStop();
+    }
 
     /**
      * write into sdcard (object)

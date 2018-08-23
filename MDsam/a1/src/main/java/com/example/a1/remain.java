@@ -135,45 +135,13 @@ public class remain extends Fragment {
             }
         });
 
-
-
-//        final AlertDialog.Builder localBuilder = new AlertDialog.Builder(context3);
-//
-//        FloatingActionButton fab2 = mView.findViewById(R.id.fd);
-//        fab2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-////                localBuilder.setTitle("Add Here");
-////                localBuilder.setView(getLayoutInflater().inflate(R.layout.dialog,null));
-////                localBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-////                    @Override
-////                    public void onClick(DialogInterface dialog, int which) {
-////                        Toast.makeText(getContext(), "yes" , Toast.LENGTH_SHORT).show();
-////                    }
-////                }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
-////                    @Override
-////                    public void onClick(DialogInterface dialog, int which) {
-////                        Toast.makeText(getContext(), "no" , Toast.LENGTH_SHORT).show();
-////
-////                    }
-////                }).create().show();
-//                Toast.makeText(getContext(), "no" , Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
     }
 
 
 
 
     private void initListData() {
-       // readListFromSDcard("remainRes");
-        mDatas1 = new ArrayList<>(10);
-        for (int i = 0; i < 1; i++) {
-            Taskk2 dataBean = new Taskk2("Add Here :D","don't forget");
-            mDatas1.add(dataBean);
-        }
+        readListFromSDcard("remainRes");
     }
 
     /**
@@ -182,7 +150,10 @@ public class remain extends Fragment {
     public void readListFromSDcard(String str){
         mDatas1 = new InputUtil<Taskk2>().readListFromSdCard(str);
         if (mDatas1 == null) {
-            Toast.makeText(getContext(), "nothing", Toast.LENGTH_SHORT).show();
+            mDatas1 = new ArrayList<>(10);
+            Taskk2 dataBean = new Taskk2("Add Here :D","don't forget");
+            mDatas1.add(dataBean);
+        }else if(mDatas1.isEmpty()){
             Taskk2 dataBean = new Taskk2("Add Here :D","don't forget");
             mDatas1.add(dataBean);
         }
@@ -192,24 +163,9 @@ public class remain extends Fragment {
 //                sb.append(mDatas1.get(i).getTask_w());
 //                sb.append(mDatas1.get(i).getTime_w());
 //            }
-            Toast.makeText(getContext(), "SD卡读取成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "read succeed", Toast.LENGTH_SHORT).show();
         }
     }
-
-//    public void readListFromSDcard(String str){
-//        mDatas1 = new InputUtil<Taskk2>().readListFromSdCard(str);
-//        if (mDatas1 == null) {
-//            Toast.makeText(getContext(), "SD卡读取失败", Toast.LENGTH_SHORT).show();
-//        }
-//        else {
-//            StringBuffer sb = new StringBuffer();
-//            for (int i = 0; i < mDatas1.size(); i++) {
-//                sb.append(mDatas1.get(i).getTask_w());
-//                sb.append(mDatas1.get(i).getTime_w());
-//            }
-//            Toast.makeText(getContext(), "SD卡读取成功"+sb, Toast.LENGTH_SHORT).show();
-//        }
-//    }
 }
 
 
