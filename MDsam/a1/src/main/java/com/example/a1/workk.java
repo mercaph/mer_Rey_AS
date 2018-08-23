@@ -1,8 +1,12 @@
 package com.example.a1;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,10 +22,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.example.a1.a1dMerca.mDatas1;
 import static com.example.a1.a1dMerca.mDatas2;
+import static com.example.a1.a1dMerca.newTextRecord;
 import static com.example.a1.a1dMerca.wor_pos;
+import static com.example.a1.a1dMerca.writeListIntoSDcard;
+import static com.example.a1.a1dMerca.mNFC_Adp;
 
 
 /**
@@ -36,6 +44,9 @@ public class workk extends Fragment {
     private Context context_w;
     private Button btn3;//底部的添加按钮
 
+    private NfcAdapter mNFC_Adp3;
+    public NdefMessage mMessage_w;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,6 +58,7 @@ public class workk extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mNFC_Adp3 = NfcAdapter.getDefaultAdapter(this.getContext());
         context_w = this.getContext();
         btn3 = mwView.findViewById(R.id.btn_work_1);
 
@@ -120,16 +132,47 @@ public class workk extends Fragment {
             }
         });
 
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMessage_w = new NdefMessage(new NdefRecord[]{newTextRecord(init_wk(), Locale.ENGLISH, true)});
+        if (mNFC_Adp3 != null) mNFC_Adp3.enableForegroundNdefPush((Activity) this.getContext(), mMessage_w);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mNFC_Adp3 != null) mNFC_Adp3.disableForegroundNdefPush((Activity) this.getContext());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        writeListIntoSDcard("workRes",mDatas2);
     }
 
     private void initListData_w() {
         readListFromSDcard2("workRes");
-//        mDatas2 = new ArrayList<>(7);
-//        for(int i=0;i<1;i++){
-//            Taskk2 dataBean = new Taskk2("input work","time  mins");
-//            mDatas2.add(dataBean);
-//        }
+    }
+
+    /**
+     * 数据加载
+     * @return
+     */
+    String init_wk(){
+        StringBuffer sb = new StringBuffer();
+        String remain_2;
+        if(wor_pos!=-1 && wor_pos<=mDatas2.size() && !mDatas2.isEmpty()){
+            sb.append(mDatas2.get(wor_pos).getTask_w());
+            sb.append("@");
+            sb.append(mDatas2.get(wor_pos).getTime_w());
+            remain_2 = sb.toString();
+            return remain_2;
+        }else {
+            return "none";
+        }
     }
 
     public void readListFromSDcard2(String str){

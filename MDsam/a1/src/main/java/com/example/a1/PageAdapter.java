@@ -36,12 +36,12 @@ public class PageAdapter extends FragmentPagerAdapter{
                     break;
 
                 case 1:
-                    fragment = new workk();
-                    Log.i("fragment","workk");
-                    break;
-                case 2:
                     fragment = new helpp();
                     Log.i("fragment","helpp");
+                    break;
+                case 2:
+                    fragment = new workk();
+                    Log.i("fragment","workk");
                     break;
             }
             mFragmentHashMap.put(pos,fragment);
