@@ -8,8 +8,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class a1dMerca extends AppCompatActivity {
+    public static List<Taskk2>mDatas1;
+    public static List<Taskk2>mDatas2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,4 +55,25 @@ public class a1dMerca extends AppCompatActivity {
 //            }
 //        });
     }
+
+//    @Override
+//    protected void onStop() {
+//        writeListIntoSDcard("remainRes",mDatas1);
+//       // writeListIntoSDcard("workRes",mDatas2);
+//        super.onStop();
+//    }
+
+    /**
+     * write into sdcard (object)
+     * @param list
+     */
+    public void writeListIntoSDcard(String str1,List<Taskk2> list){
+        if (new OutputUtil<Taskk2>().writeListIntoSDcard(str1, list)) {
+           // Toast.makeText(a1dMerca.this, "写入SD卡成功", Toast.LENGTH_SHORT).show();
+        }
+        else {
+           // Toast.makeText(a1dMerca.this, "写入SD卡失败", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

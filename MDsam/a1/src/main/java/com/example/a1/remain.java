@@ -23,6 +23,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.a1.a1dMerca.mDatas1;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +34,7 @@ import java.util.List;
 public class remain extends Fragment {
     private View mView;
     private RecyclerView mRecyclerView;
-    private List<Taskk2> mDatas1;
+    //public List<Taskk2> mDatas1;
     private HotFgListAdapter mAdapter;
     private Context context3;
     private Button btn1;
@@ -162,13 +164,52 @@ public class remain extends Fragment {
 
     }
 
+
+
+
     private void initListData() {
+       // readListFromSDcard("remainRes");
         mDatas1 = new ArrayList<>(10);
         for (int i = 0; i < 1; i++) {
             Taskk2 dataBean = new Taskk2("Add Here :D","don't forget");
             mDatas1.add(dataBean);
         }
     }
+
+    /**
+     * rean from sdcard (集合)
+     */
+    public void readListFromSDcard(String str){
+        mDatas1 = new InputUtil<Taskk2>().readListFromSdCard(str);
+        if (mDatas1 == null) {
+            Toast.makeText(getContext(), "nothing", Toast.LENGTH_SHORT).show();
+            Taskk2 dataBean = new Taskk2("Add Here :D","don't forget");
+            mDatas1.add(dataBean);
+        }
+        else {
+//            StringBuffer sb = new StringBuffer();
+//            for (int i = 0; i < mDatas1.size(); i++) {
+//                sb.append(mDatas1.get(i).getTask_w());
+//                sb.append(mDatas1.get(i).getTime_w());
+//            }
+            Toast.makeText(getContext(), "SD卡读取成功", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+//    public void readListFromSDcard(String str){
+//        mDatas1 = new InputUtil<Taskk2>().readListFromSdCard(str);
+//        if (mDatas1 == null) {
+//            Toast.makeText(getContext(), "SD卡读取失败", Toast.LENGTH_SHORT).show();
+//        }
+//        else {
+//            StringBuffer sb = new StringBuffer();
+//            for (int i = 0; i < mDatas1.size(); i++) {
+//                sb.append(mDatas1.get(i).getTask_w());
+//                sb.append(mDatas1.get(i).getTime_w());
+//            }
+//            Toast.makeText(getContext(), "SD卡读取成功"+sb, Toast.LENGTH_SHORT).show();
+//        }
+//    }
 }
 
 
