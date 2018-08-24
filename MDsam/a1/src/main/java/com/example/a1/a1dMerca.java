@@ -27,13 +27,13 @@ public class a1dMerca extends AppCompatActivity {
     public static int wor_pos = -1;
 
     public static NfcAdapter mNFC_Adp;
-   // public static NdefMessage mMessage;
+    public static NdefMessage mMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a1_1);
-       // mNFC_Adp = NfcAdapter.getDefaultAdapter(this);
+        //mNFC_Adp = NfcAdapter.getDefaultAdapter(this);
         //NfcCheck();
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         //设置adapter，滑动事件

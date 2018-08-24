@@ -26,10 +26,13 @@ import java.util.Locale;
 
 import static com.example.a1.a1dMerca.mDatas1;
 import static com.example.a1.a1dMerca.mDatas2;
+import static com.example.a1.a1dMerca.mMessage;
 import static com.example.a1.a1dMerca.newTextRecord;
+import static com.example.a1.a1dMerca.tab_c;
 import static com.example.a1.a1dMerca.wor_pos;
 import static com.example.a1.a1dMerca.writeListIntoSDcard;
 import static com.example.a1.a1dMerca.mNFC_Adp;
+import static com.example.a1.remain.init_re;
 
 
 /**
@@ -44,8 +47,8 @@ public class workk extends Fragment {
     private Context context_w;
     private Button btn3;//底部的添加按钮
 
-    private NfcAdapter mNFC_Adp3;
-    public NdefMessage mMessage_w;
+    //private NfcAdapter mNFC_Adp3;
+    //public NdefMessage mMessage_w;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,7 +61,7 @@ public class workk extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mNFC_Adp3 = NfcAdapter.getDefaultAdapter(this.getContext());
+        mNFC_Adp = NfcAdapter.getDefaultAdapter(this.getContext());
         context_w = this.getContext();
         btn3 = mwView.findViewById(R.id.btn_work_1);
 
@@ -137,14 +140,28 @@ public class workk extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mMessage_w = new NdefMessage(new NdefRecord[]{newTextRecord(init_wk(), Locale.ENGLISH, true)});
-        if (mNFC_Adp3 != null) mNFC_Adp3.enableForegroundNdefPush((Activity) this.getContext(), mMessage_w);
+        switch (tab_c){
+            case 0:
+                mMessage = new NdefMessage(new NdefRecord[]{newTextRecord(init_re(), Locale.ENGLISH, true)});
+                break;
+            case 1:
+                if (wor_pos!=-1 || wor_pos<=mDatas2.size()){
+                    mMessage = new NdefMessage(new NdefRecord[]{newTextRecord(init_wk(), Locale.ENGLISH, true)});
+                    break;
+                }else {
+                    break;
+                }
+
+            default:mMessage = new NdefMessage(new NdefRecord[]{newTextRecord("none_defult", Locale.ENGLISH, true)});break;
+        }
+       // mMessage_w = new NdefMessage(new NdefRecord[]{newTextRecord(init_wk(), Locale.ENGLISH, true)});
+        if (mNFC_Adp != null) mNFC_Adp.enableForegroundNdefPush((Activity) this.getContext(), mMessage);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (mNFC_Adp3 != null) mNFC_Adp3.disableForegroundNdefPush((Activity) this.getContext());
+        if (mNFC_Adp != null) mNFC_Adp.disableForegroundNdefPush((Activity) this.getContext());
     }
 
     @Override
@@ -161,7 +178,7 @@ public class workk extends Fragment {
      * 数据加载
      * @return
      */
-    String init_wk(){
+    public static String init_wk(){
         StringBuffer sb = new StringBuffer();
         String remain_2;
         if(wor_pos!=-1 && wor_pos<=mDatas2.size() && !mDatas2.isEmpty()){

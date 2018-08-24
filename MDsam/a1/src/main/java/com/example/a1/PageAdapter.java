@@ -36,11 +36,11 @@ public class PageAdapter extends FragmentPagerAdapter{
                     break;
 
                 case 1:
-                    fragment = new helpp();
+                    fragment = new workk();
                     Log.i("fragment","helpp");
                     break;
                 case 2:
-                    fragment = new workk();
+                    fragment = new helpp();
                     Log.i("fragment","workk");
                     break;
             }

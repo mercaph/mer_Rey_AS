@@ -29,10 +29,14 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.example.a1.a1dMerca.mDatas1;
+import static com.example.a1.a1dMerca.mDatas2;
 import static com.example.a1.a1dMerca.newTextRecord;
+import static com.example.a1.a1dMerca.tab_c;
+import static com.example.a1.a1dMerca.wor_pos;
 import static com.example.a1.a1dMerca.writeListIntoSDcard;
 import static com.example.a1.a1dMerca.mNFC_Adp;
-
+import static com.example.a1.a1dMerca.mMessage;
+import static com.example.a1.workk.init_wk;
 
 
 /**
@@ -49,8 +53,8 @@ public class remain extends Fragment {
     private Button btn1;
     public String add_mData;
 
-    private NfcAdapter mNFC_Adp2;
-    public NdefMessage mMessage_r;
+    //private NfcAdapter mNFC_Adp2;
+   // private NdefMessage mMessage_r;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,7 +67,7 @@ public class remain extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mNFC_Adp2 = NfcAdapter.getDefaultAdapter(this.getContext());
+        mNFC_Adp = NfcAdapter.getDefaultAdapter(this.getContext());
         context3 = this.getContext();
         btn1 = mView.findViewById(R.id.btn_remain_1);
 
@@ -155,13 +159,28 @@ public class remain extends Fragment {
 
     public void onResume() {
         super.onResume();
-        mMessage_r = new NdefMessage(new NdefRecord[]{newTextRecord(init_re(), Locale.ENGLISH, true)});
-        if (mNFC_Adp2 != null) mNFC_Adp2.enableForegroundNdefPush((Activity) this.getContext(), mMessage_r);
+        //mMessage_r = new NdefMessage(new NdefRecord[]{newTextRecord(init_re(), Locale.ENGLISH, true)});
+
+        switch (tab_c){
+            case 0:
+                mMessage = new NdefMessage(new NdefRecord[]{newTextRecord(init_re(), Locale.ENGLISH, true)});
+                break;
+            case 1:
+                if (wor_pos!=-1 || wor_pos<=mDatas2.size()){
+                    mMessage = new NdefMessage(new NdefRecord[]{newTextRecord(init_wk(), Locale.ENGLISH, true)});
+                    break;
+                }else {
+                    break;
+                }
+
+            default:mMessage = new NdefMessage(new NdefRecord[]{newTextRecord("none_defult", Locale.ENGLISH, true)});break;
+        }
+        if (mNFC_Adp != null) mNFC_Adp.enableForegroundNdefPush((Activity) this.getContext(), mMessage);
     }
 
     public void onPause() {
         super.onPause();
-        if (mNFC_Adp2 != null) mNFC_Adp2.disableForegroundNdefPush((Activity) this.getContext());
+        if (mNFC_Adp != null) mNFC_Adp.disableForegroundNdefPush((Activity) this.getContext());
     }
 
     @Override
@@ -174,7 +193,7 @@ public class remain extends Fragment {
         readListFromSDcard("remainRes");
     }
 
-    String init_re(){
+    public static String init_re(){
         StringBuffer sb = new StringBuffer();
         String remain_1;
         if(mDatas1 == null){
